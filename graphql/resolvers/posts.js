@@ -10,7 +10,7 @@ module.exports = {
       // Get All Posts Query
     async getPosts() {
       try {
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const posts = await Post.find();
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -47,12 +47,13 @@ module.exports = {
               username: user.username,
               createdAt: new Date().toISOString()
           });
-
+          
           const post = await newPost.save();
 
           return post;
       },
       async deletePost(_, { postId }, context){
+        // TODO Check if post is already deleted.
         const user = checkAuth(context);
 
         try {
