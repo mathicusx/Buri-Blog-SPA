@@ -18,15 +18,15 @@ function PostCard({
       {/* TODO IMPLEMENT POSTS/ID OF POST */}
       <Card.Content as={Link} to={`/posts/${id}`}>
         <Image
-          floated="right"
-          size="tiny"
-          src="https://react.semantic-ui.com/images/avatar/large/molly.png"
+          floated="left"
+          size="mini"
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
         />
         <Card.Header>{username}</Card.Header>
-
         {/* moment makes it from IsoString to Date Format*/}
-        <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
-        <Card.Description className="card-description">{body}</Card.Description>
+        <Card.Meta className="card-description" floated="right">{moment(createdAt).fromNow()}</Card.Meta>
+        <Card.Description>{body}</Card.Description>
+        
       </Card.Content>
       <Card.Content extra>
       <Button as='div' labelPosition='right' onClick={likePost}>
@@ -35,7 +35,7 @@ function PostCard({
         Likes
       </Button>
       <Label as='a' basic color='red' pointing='left'>
-        {likeCount}
+        {likeCount} 
       </Label>
     </Button>
     <Button as='div' labelPosition='right' onClick={commentOnPost}>
