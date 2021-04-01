@@ -10,7 +10,7 @@ module.exports = {
       // Get All Posts Query
     async getPosts() {
       try {
-        const posts = await Post.find();
+        const posts = await Post.find().sort({ createdAt: -1 });
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -39,6 +39,9 @@ module.exports = {
 
           if (body.trim() === '') {
             throw new Error('Post body must not be empty');
+          }
+          if (body.length > 280) {
+            throw new Error('Max Characters allowed is 280!');
           }
 
           const newPost  = new Post({

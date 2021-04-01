@@ -9,3 +9,7 @@
 .card-description{
     font-family: 'Montserrat', sans-serif;
 }
+.form-container{
+    width: 400px;
+    margin: auto;
+}
