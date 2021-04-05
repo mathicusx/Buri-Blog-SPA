@@ -1,3 +1,5 @@
+// improving Code Reusability for Login and Register Page 
+
 import { useState } from "react";
 
 export const useForm = (callback, initialState = {}) => {

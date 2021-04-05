@@ -2,7 +2,6 @@ const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Post = require("../../models/Post");
 const checkAuth = require("../../util/check-auth");
-const posts = require("./posts");
  
 module.exports = {
   Mutation: {
@@ -50,7 +49,7 @@ module.exports = {
           // it should not be possible for other user to delete other comments but just in case we put this  safety measure in place.
           throw new AuthenticationError('Action not permitted');
         }
-      } else{
+      } else{ 
         throw new UserInputError('Post not found');
       }
     }
