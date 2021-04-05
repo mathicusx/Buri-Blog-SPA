@@ -3,7 +3,7 @@ import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
-import { AuthContext } from '../context/auth';
+import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 
 function Login(props) {
@@ -12,11 +12,11 @@ function Login(props) {
 
   const { onChange, onSubmit, values } = useForm(loginUserCallBack, {
     username: "",
-    password: ""
+    password: "",
   });
 
-  const [loginUser , { loading }] = useMutation(LOGIN_USER, {
-    update(_, {data: { login: userData }}) {
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    update(_, { data: { login: userData } }) {
       context.login(userData);
       props.history.push("/");
     },
@@ -26,8 +26,8 @@ function Login(props) {
     variables: values,
   });
 
-  function loginUserCallBack(){
-    loginUser()
+  function loginUserCallBack() {
+    loginUser();
   }
 
   return (
@@ -73,15 +73,13 @@ function Login(props) {
 }
 
 const LOGIN_USER = gql`
-  mutation login( $username: String! $password: String!) {
-     # Triggers our Login Mutation.
-    login(username: $username  password: $password ) { 
-      #Here we get the fields that we need from the Trigger.
+  mutation login($username: String!, $password: String!) { # Triggers our Login Mutation.
+    login(username: $username, password: $password) { #Here we get the fields that we need from the Trigger.
       id
       email
       username
       createdAt
-      exp
+      token
     }
   }
 `;
