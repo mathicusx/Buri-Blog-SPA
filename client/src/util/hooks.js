@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // improving Code Reusability for Login and Register Page 
 
+=======
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
 import { useState } from "react";
 
 export const useForm = (callback, initialState = {}) => {

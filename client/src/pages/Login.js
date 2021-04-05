@@ -1,13 +1,23 @@
+<<<<<<< HEAD
 import React, { useContext, useState } from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
+<<<<<<< HEAD
 import { AuthContext } from '../context/auth';
 import { useForm } from "../util/hooks";
 
 function Login(props) {
   const context = useContext(AuthContext);
+=======
+import { useForm } from "../util/hooks";
+
+function Login(props) {
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
   const [errors, setErrors] = useState({});
 
   const { onChange, onSubmit, values } = useForm(loginUserCallBack, {
@@ -16,8 +26,12 @@ function Login(props) {
   });
 
   const [loginUser , { loading }] = useMutation(LOGIN_USER, {
+<<<<<<< HEAD
     update(_, {data: { login: userData }}) {
       context.login(userData);
+=======
+    update(_, result) {
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
       props.history.push("/");
     },
     onError(err) {
@@ -33,7 +47,11 @@ function Login(props) {
   return (
     <div className="form-container">
       <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
+<<<<<<< HEAD
         <h1>Login</h1>
+=======
+        <h1>Sign In</h1>
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
         <Form.Input
           label="Username"
           placeholder="Username.."
@@ -53,7 +71,11 @@ function Login(props) {
           onChange={onChange}
         />
         <Button type="submit" primary>
+<<<<<<< HEAD
           Login
+=======
+          Sign in
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
         </Button>
       </Form>
 

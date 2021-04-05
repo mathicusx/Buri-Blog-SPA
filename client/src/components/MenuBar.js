@@ -36,6 +36,7 @@ function MenuBar() {
         as={Link}
         to="/"
       />
+<<<<<<< HEAD
       <Menu.Item
         name="logout"
         onClick={context.logout}
@@ -68,6 +69,25 @@ function MenuBar() {
       />
     </Menu.Menu>
   </Menu>
+=======
+      <Menu.Menu position="right">
+        <Menu.Item
+          name="Sign in"
+          active={activeItem === "login"}
+          onClick={handleItemClick}
+          as={Link}
+          to="/login"
+        />
+        <Menu.Item
+          name="register"
+          active={activeItem === "register"}
+          onClick={handleItemClick}
+          as={Link}
+          to="/register"
+        />
+      </Menu.Menu>
+    </Menu>
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
   );
 
   return menuBar;

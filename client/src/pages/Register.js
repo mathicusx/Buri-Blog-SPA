@@ -1,13 +1,23 @@
+<<<<<<< HEAD
 import React, { useContext, useState } from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
+<<<<<<< HEAD
 import { AuthContext } from "../context/auth";
 import { useForm } from "../util/hooks";
 
 function Register(props) {
   const context = useContext(AuthContext);
+=======
+import { useForm } from "../util/hooks";
+
+function Register(props) {
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
   const [errors, setErrors] = useState({});
 
   const { onChange, onSubmit, values } = useForm(registerUser, {
@@ -18,8 +28,12 @@ function Register(props) {
   });
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
+<<<<<<< HEAD
     update(_, { data: { register: userData } }) {
       context.login(userData); // We are reusing login because we want to login the user after registration.
+=======
+    update(_, result) {
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
       props.history.push("/");
     },
     onError(err) {
@@ -28,7 +42,11 @@ function Register(props) {
     variables: values,
   });
 
+<<<<<<< HEAD
   function registerUser() {
+=======
+  function registerUser(){
+>>>>>>> 0404f58f6a816d5f8a183939ea25395e1ed0cb2d
     addUser();
   }
 
