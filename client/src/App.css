@@ -13,3 +13,6 @@
     width: 400px;
     margin: auto;
 }
+.grid-row{
+    width: 600px !important;
+}
