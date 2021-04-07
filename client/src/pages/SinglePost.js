@@ -23,6 +23,10 @@ function SinglePost(props) {
     },
   });
 
+  function deletePostCallback(){
+    props.history.push('/');
+  }
+
   let postMarkup;
   if (!getPost) {
     postMarkup = <p>loading page..</p>;
@@ -37,6 +41,7 @@ function SinglePost(props) {
       likeCount,
       commentCount,
     } = getPost;
+
 
     postMarkup = (
       <Grid>
@@ -68,7 +73,7 @@ function SinglePost(props) {
                   </Label>
                 </Button>
                 {user && user.username === username && (
-                    <DeleteButton postId = {id} />
+                    <DeleteButton postId = {id} callback={deletePostCallback} />
                 )}
               </Card.Content>
             </Card>
