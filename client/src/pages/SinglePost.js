@@ -1,30 +1,42 @@
-import React, { useContext } from "react";
-import { useQuery } from "@apollo/react-hooks";
+import React, { useContext, useState,useRef} from "react";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import moment from "moment";
 
-import { Card, Grid, Image, Button, Label, Icon } from "semantic-ui-react";
+import { Card, Grid, Form, Image, Button, Label, Icon } from "semantic-ui-react";
 
 import { AuthContext } from "../context/auth";
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
 
 function SinglePost(props) {
-  const postId = props.match.params.postId;
-  console.log(postId);
 
+  const postId = props.match.params.postId;
+  const [comment, setComment] = useState('');
   const { user } = useContext(AuthContext);
 
-  const {
-    data: { getPost } = {},
-  } = useQuery(FETCH_POST_QUERY, {
+  const commentInputRef = useRef(null);
+
+  const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId,
     },
   });
 
-  function deletePostCallback(){
-    props.history.push('/');
+  const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
+    update(){
+      // once we submit the comment we want to empty the input
+      setComment('');
+      commentInputRef.current.blur();
+    },
+    variables:{
+      postId,
+      body: comment
+    }
+  });
+
+  function deletePostCallback() {
+    props.history.push("/");
   }
 
   let postMarkup;
@@ -41,7 +53,6 @@ function SinglePost(props) {
       likeCount,
       commentCount,
     } = getPost;
-
 
     postMarkup = (
       <Grid>
@@ -63,7 +74,10 @@ function SinglePost(props) {
               <hr />
               <Card.Content extra>
                 <LikeButton user={user} post={{ id, likeCount, likes }} />
-                <Button labelPosition="right" onClick={() => console.log('Commented on post.')}>
+                <Button
+                  labelPosition="right"
+                  onClick={() => console.log("Commented on post.")}
+                >
                   <Button basic color="blue">
                     <Icon name="comments" />
                     Comments
@@ -73,10 +87,49 @@ function SinglePost(props) {
                   </Label>
                 </Button>
                 {user && user.username === username && (
-                    <DeleteButton postId = {id} callback={deletePostCallback} />
+                  <DeleteButton postId={id} callback={deletePostCallback} />
                 )}
               </Card.Content>
             </Card>
+            {user && (
+              <Card  fluid>
+              <Card.Content>
+              <p>Post a comment</p>
+                <Form>
+                  <div className="ui action input fluid">
+                    <input
+                    type="text"
+                    placeholder="Comment.."
+                    name="comment"
+                    value={comment}
+                    onChange={event => setComment(event.target.value)} 
+                    ref={commentInputRef}
+                    />
+                  </div>
+                  <button type="submit"
+                    className="ui button blue"
+                    disabled={comment.trim() === ''}
+                    onClick={submitComment}
+                    >
+                      Submit
+                    </button>
+                  
+                </Form>
+              </Card.Content>
+              </Card>
+            )}
+            {comments.map((comment) => ( 
+              <Card fluid key={comment.id}>
+                <Card.Content>
+                {user && user.username === comment.username && (
+                  <DeleteButton postId={id} commentId={comment.id} />
+                )}
+                  <Card.Header>{comment.username}</Card.Header>
+                  <Card.Meta>{moment(comment.createdAt).fromNow}</Card.Meta>
+                  <Card.Description>{comment.body}</Card.Description>
+                </Card.Content>
+              </Card>
+            ))} 
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -84,6 +137,21 @@ function SinglePost(props) {
   }
   return postMarkup;
 }
+
+const SUBMIT_COMMENT_MUTATION = gql`
+  mutation($postId: ID!, $body: String!){
+    createComment(postId: $postId, body:$body){
+      id
+      comments{
+        id
+        body
+        createdAt
+        username
+      }
+      commentCount
+    }
+  }
+`;
 
 const FETCH_POST_QUERY = gql`
   query($postId: ID!) {
